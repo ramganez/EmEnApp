@@ -1,3 +1,20 @@
+$(document).ready(function(){
+
+    // your javascript here
+    $('#id_date_of_birth').datetimepicker({
+        format: 'YYYY-MM-DD'
+    })
+
+    $('#login-form').validator().on('submit', function (e) {
+      if (e.isDefaultPrevented() === false) {
+        submitForm($("#login-form").attr('action'), 'login-form');
+      }
+      return false;
+    });
+
+});
+
+
 $(function() {
 
     $('#login-form-link').click(function(e) {
@@ -16,3 +33,37 @@ $(function() {
 	});
 
 });
+
+
+
+// this is the id of the form
+function submitForm(ation_url, _id) {
+    var url = ation_url;
+
+    console.log($("#"+_id).serialize());
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: $("#"+_id).serialize(), // by default it pass csrf token
+           success: function(data)
+           {
+                // replace container with user profile
+               $(".container").html(data.html);
+               $("#form_errors").hide();
+           },
+           error: function(data)
+           {
+                // form validation error
+                if (data.responseJSON.__all__){
+                    $("#form_errors").html("Error! "+ data.responseJSON.__all__.join('\n'));
+                }else{
+                    // something went wrong
+                    $("#form_errors").html(data.responseJSON.error_msg);
+                }
+
+                $("#form_errors").show();
+           }
+         });
+
+}
+

@@ -9,6 +9,6 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
-    years_of_experience = models.DecimalField(max_digits=2, decimal_places=2, default=0)
+    years_of_experience = models.DecimalField(max_digits=2, decimal_places=2)
     designation = models.CharField(max_length=150)
 

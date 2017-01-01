@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'enrollments',
+    'widget_tweaks',
+    'django_extensions',
 
+    'enrollments',
 ]
 
 MIDDLEWARE = [
