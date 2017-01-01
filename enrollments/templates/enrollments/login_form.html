@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 
-<form id="login-form" action="{{ action_url }}" method="post" style="display: block;" data-toggle="validator">
+<form id="login-form" action="{{ signin_action_url }}" method="post" style="display: block;" data-toggle="validator">
 
     <div id="form_errors" class="alert alert-danger fade in" style="display:none;">
     </div>
@@ -17,7 +17,7 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
-                <input type="submit" name="login-submit" id="login-submit" onclick="" tabindex="4" class="form-control btn btn-login" value="Log In">
+                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
             </div>
         </div>
     </div>

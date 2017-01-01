@@ -6,10 +6,17 @@ $(document).ready(function(){
     })
 
     $('#login-form').validator().on('submit', function (e) {
-      if (e.isDefaultPrevented() === false) {
-        submitForm($("#login-form").attr('action'), 'login-form');
-      }
-      return false;
+        if (e.isDefaultPrevented() === false) {
+            submitForm($("#login-form").attr('action'), 'login-form');
+        }
+        return false;
+    });
+
+    $('#register-form').validator().on('submit', function (e) {
+        if (e.isDefaultPrevented() === false) {
+            submitForm($("#register-form").attr('action'), 'register-form');
+        }
+        return false;
     });
 
 });
@@ -50,6 +57,7 @@ function submitForm(ation_url, _id) {
                 // replace container with user profile
                $(".container").html(data.html);
                $("#form_errors").hide();
+
            },
            error: function(data)
            {

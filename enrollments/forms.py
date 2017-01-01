@@ -31,10 +31,6 @@ class UserForm(ModelForm):
 
     email = forms.EmailField(max_length=64, help_text="The person's email address.")
 
-    def clean_username(self):
-        email = self.cleaned_data['email']
-        return email
-
 
 class ProfileForm(forms.ModelForm):
     class Meta:
