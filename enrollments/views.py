@@ -64,7 +64,6 @@ def signout(request):
 def create_user_profile(request):
     context = {}
     if request.method == 'POST':
-        import ipdb;ipdb.set_trace()
         user_form = UserForm(request.POST)
         profile_form = ProfileForm(request.POST)
 
@@ -107,7 +106,9 @@ def update_user_profile(request):
 
 def dashboard_view(request, **kwargs):
     try:
-        if request.user is not None and request.user.is_active:
+        if request.user.is_authenticated():
             return render(request, 'enrollments/dashboard.html', {'user': request.user})
+        else:
+            return redirect('go-to-signin')
     except:
         raise Http404("<h1> Something went wrong !!!<h1>")
