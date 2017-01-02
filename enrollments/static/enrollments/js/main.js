@@ -6,6 +6,7 @@ $(document).ready(function(){
     })
 
     $('#login-form').validator().on('submit', function (e) {
+
         if (e.isDefaultPrevented() === false) {
             submitForm($("#login-form").attr('action'), 'login-form');
         }
@@ -25,6 +26,9 @@ $(document).ready(function(){
 $(function() {
 
     $('#login-form-link').click(function(e) {
+
+        window.history.pushState("", "", '/signin');
+
     	$("#login-form").delay(100).fadeIn(100);
  		$("#register-form").fadeOut(100);
 		$('#register-form-link').removeClass('active');
@@ -32,6 +36,9 @@ $(function() {
 		e.preventDefault();
 	});
 	$('#register-form-link').click(function(e) {
+
+	    window.history.pushState("", "", '/register');
+
 		$("#register-form").delay(100).fadeIn(100);
  		$("#login-form").fadeOut(100);
 		$('#login-form-link').removeClass('active');
@@ -54,9 +61,12 @@ function submitForm(ation_url, _id) {
            data: $("#"+_id).serialize(), // by default it pass csrf token
            success: function(data)
            {
+                window.history.pushState("", "", data.profile_url);
+                console.log(data.profile_url);
+
                 // replace container with user profile
-               $(".container").html(data.html);
-               $("#form_errors").hide();
+                $(".container").html(data.html);
+                $("#form_errors").hide();
 
            },
            error: function(data)

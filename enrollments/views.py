@@ -19,6 +19,7 @@ from enrollments.forms import SigninForm, UserForm, ProfileForm
 def signin(request):
     context = {}
     if request.method == 'POST':
+        import ipdb;ipdb.set_trace()
         form = SigninForm(request.POST)
         if request.is_ajax():
             if form.is_valid():
@@ -32,7 +33,8 @@ def signin(request):
                             context.update({'user': user})
                             dasboard_area = get_template(template_name="enrollments/dashboard.html")
                             html = dasboard_area.render(context)
-                            return JsonResponse({'html': html}, status=200)
+                            return JsonResponse({'html': html, 'profile_url': user.profile.get_absolute_url()},
+                                                status=200)
                 except:
                     error_msg = "Something went wrong. Please try again later"
                     return JsonResponse({'error_msg': error_msg}, status=400)
@@ -60,10 +62,12 @@ def signout(request):
 def create_user_profile(request):
     context = {}
     if request.method == 'POST':
+        import ipdb;ipdb.set_trace()
         user_form = UserForm(request.POST)
         profile_form = ProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
+            # create user
             username = user_form.cleaned_data['email']
             email = user_form.cleaned_data['email']
             password = user_form.cleaned_data['password']
@@ -77,7 +81,7 @@ def create_user_profile(request):
             years_of_experience = profile_form.cleaned_data['years_of_experience']
             designation = profile_form.cleaned_data['designation']
             user = new_user
-            Profile.objects.create(user=user, date_of_birth=date_of_birth, years_of_experience=years_of_experience,
+            profile_obj = Profile.objects.create(user=user, date_of_birth=date_of_birth, years_of_experience=years_of_experience,
                                    designation=designation)
             new_user = authenticate(username=username, password=password)
             login(request, new_user)
@@ -85,13 +89,16 @@ def create_user_profile(request):
             context.update({'user': user})
             dasboard_area = get_template(template_name="enrollments/dashboard.html")
             html = dasboard_area.render(context)
-            return JsonResponse({'html': html}, status=200)
+            # json response with dashboard
+            return JsonResponse({'html': html, 'profile_url': profile_obj.get_absolute_url()}, status=200)
 
         else:
             return JsonResponse(profile_form.errors, status=400)
 
 
-
 def update_user_profile(request):
     pass
 
+
+def dashboard_view(request):
+    pass
