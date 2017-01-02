@@ -1,57 +1,61 @@
-<div class="row">
+{% extends 'base.html' %}
 
-    <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-        <A href="#">Edit Profile</A>
-        <A href="#">Logout</A>
-        <br>
-        <p class="text-info"> {{ user.last_login }} </p> {# May 05,2014,03:00 pm  #}
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+{% block row %}
+    <div id="first_inner_row" class="row">
 
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{ user.profile.get_full_name }}</h3>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-3 col-lg-3 " align="center"><img alt="User Pic"
-                                                                        src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
-                                                                        class="img-circle img-responsive"></div>
+        <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+            <A href="#">Edit Profile</A>
+            <A href="#">Logout</A>
+            <br>
+            <p class="text-info"> {{ user.last_login }} </p> {# May 05,2014,03:00 pm  #}
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 
-                    <div class=" col-md-9 col-lg-9 ">
-                        <table class="table table-user-information">
-                            <tbody>
-                            <tr>
-                                <td>First Name</td>
-                                <td>{{ user.first_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Last Name</td>
-                                <td>{{ user.last_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Date of Birth</td>
-                                <td>{{ user.profile.date_of_birth }}</td>
-                            </tr>
-                            <tr>
-                                <td>Email</td>
-                                <td><a href="mailto:info@support.com">{{ user.username }}</a></td>
-                            </tr>
-                            <tr>
-                                <td>Years of Experience</td>
-                                <td>{{ user.profile.years_of_experience }}</td>
-                            </tr>
-                            <tr>
-                                <td>Designation</td>
-                                <td>{{ user.profile.designation }}</td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ user.profile.get_full_name }}</h3>
                 </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center"><img alt="User Pic"
+                                                                            src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
+                                                                            class="img-circle img-responsive"></div>
 
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>First Name</td>
+                                    <td>{{ user.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last Name</td>
+                                    <td>{{ user.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date of Birth</td>
+                                    <td>{{ user.profile.date_of_birth }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><a href="mailto:info@support.com">{{ user.username }}</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Years of Experience</td>
+                                    <td>{{ user.profile.years_of_experience }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Designation</td>
+                                    <td>{{ user.profile.designation }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
+{% endblock %}

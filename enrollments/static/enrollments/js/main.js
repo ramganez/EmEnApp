@@ -65,7 +65,7 @@ function submitForm(ation_url, _id) {
                 console.log(data.profile_url);
 
                 // replace container with user profile
-                $(".container").html(data.html);
+                $(".container").html($(data.html).find('#first_inner_row').html());
                 $("#form_errors").hide();
 
            },

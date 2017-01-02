@@ -29,9 +29,9 @@
 </head>
 <body>
 
-
     <div class="container">
-        <div class="row">
+		{% block row %}
+        <div id="first_inner_row" class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
 					<div class="panel-heading">
@@ -63,6 +63,7 @@
 				</div>
 			</div>
 		</div>
+		{% endblock %}
     </div>
 
 </body>

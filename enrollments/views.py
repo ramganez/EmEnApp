@@ -19,7 +19,6 @@ from enrollments.forms import SigninForm, UserForm, ProfileForm
 def signin(request):
     context = {}
     if request.method == 'POST':
-        import ipdb;ipdb.set_trace()
         form = SigninForm(request.POST)
         if request.is_ajax():
             if form.is_valid():
@@ -27,14 +26,13 @@ def signin(request):
                     username = form.cleaned_data.get('username')
                     password = form.cleaned_data.get('password')
                     user = authenticate(username=username, password=password)
-                    if user is not None:
-                        if user.is_active:
-                            login(request, user)
-                            context.update({'user': user})
-                            dasboard_area = get_template(template_name="enrollments/dashboard.html")
-                            html = dasboard_area.render(context)
-                            return JsonResponse({'html': html, 'profile_url': user.profile.get_absolute_url()},
-                                                status=200)
+                    if user is not None and user.is_active:
+                        login(request, user)
+                        context.update({'user': user})
+                        dasboard_area = get_template(template_name="enrollments/dashboard.html")
+                        html = dasboard_area.render(context)
+                        return JsonResponse({'html': html, 'profile_url': user.profile.get_absolute_url()},
+                                            status=200)
                 except:
                     error_msg = "Something went wrong. Please try again later"
                     return JsonResponse({'error_msg': error_msg}, status=400)
@@ -42,16 +40,20 @@ def signin(request):
                 return JsonResponse(form.errors, status=400)
 
     else:
-        # login form
-        context['signin_form'] = SigninForm
+        if request.user.is_authenticated():
+            profile_obj = request.user.profile
+            return redirect(profile_obj)
+        else:
+            # login form
+            context['signin_form'] = SigninForm
 
-        # for registering new employee
-        context['user_form'] = UserForm
-        context['profile_form'] = ProfileForm
-        context['signin_action_url'] = reverse('signin')
-        context['reg_action_url'] = reverse('register')
+            # for registering new employee
+            context['user_form'] = UserForm
+            context['profile_form'] = ProfileForm
+            context['signin_action_url'] = reverse('signin')
+            context['reg_action_url'] = reverse('register')
 
-    return render(request, 'base.html', context)
+            return render(request, 'base.html', context)
 
 
 def signout(request):
@@ -95,10 +97,17 @@ def create_user_profile(request):
         else:
             return JsonResponse(profile_form.errors, status=400)
 
+    else:
+        return redirect('go-to-signin')
+
 
 def update_user_profile(request):
     pass
 
 
-def dashboard_view(request):
-    pass
+def dashboard_view(request, **kwargs):
+    try:
+        if request.user is not None and request.user.is_active:
+            return render(request, 'enrollments/dashboard.html', {'user': request.user})
+    except:
+        raise Http404("<h1> Something went wrong !!!<h1>")

@@ -15,4 +15,4 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
 
-        return reverse('profile', args=[self.user.username+"_"+str(self.user.id)])
+        return reverse('profile', kwargs={'username_id': self.user.username.split('@')[0]+"_"+str(self.user.id)})
