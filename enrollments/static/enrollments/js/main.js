@@ -55,7 +55,6 @@ $(function() {
 function submitForm(ation_url, _id) {
     var url = ation_url;
 
-    console.log($("#"+_id).serialize());
     $.ajax({
            type: "POST",
            url: url,
@@ -63,7 +62,6 @@ function submitForm(ation_url, _id) {
            success: function(data)
            {
                 window.history.pushState("", "", data.profile_url);
-                console.log(data.profile_url);
 
                 // replace container with user profile
                 $(".container").html($(data.html).find('#first_inner_row').html());

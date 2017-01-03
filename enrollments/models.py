@@ -10,7 +10,7 @@ from django.shortcuts import reverse
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
-    years_of_experience = models.DecimalField(max_digits=4, decimal_places=2)
+    years_of_experience = models.FloatField()
     designation = models.CharField(max_length=150)
     last_visit = models.DateTimeField(auto_now_add=True)
 
