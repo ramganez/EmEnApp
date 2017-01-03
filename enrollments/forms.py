@@ -31,12 +31,32 @@ class UserForm(ModelForm):
 
     email = forms.EmailField(max_length=64, help_text="The person's email address.")
 
+    def clean_first_name(self):
+        data = self.cleaned_data['first_name'].strip()
+        if not data:
+            raise forms.ValidationError("Please fill out the firstname!")
+        return data
+
+    def clean_last_name(self):
+        data = self.cleaned_data['last_name'].strip()
+        return data
+
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         # Add all the fields you want a user to change
         fields = ('first_name', 'last_name', 'username')
+
+    def clean_first_name(self):
+        data = self.cleaned_data['first_name'].strip()
+        if not data:
+            raise forms.ValidationError("Please fill out the firstname!")
+        return data
+
+    def clean_last_name(self):
+        data = self.cleaned_data['last_name'].strip()
+        return data
 
 
 class ProfileForm(forms.ModelForm):
