@@ -12,6 +12,7 @@ class Profile(models.Model):
     date_of_birth = models.DateField()
     years_of_experience = models.DecimalField(max_digits=4, decimal_places=2)
     designation = models.CharField(max_length=150)
+    last_visit = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
         return reverse('profile', kwargs={'username_id': self.user.username.split('@')[0]+"_"+str(self.user.id)})
