@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block inner_row %}
+
     <div id="first_inner_row" class="row">
-
-        <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-            <A href="{{ user.profile.get_update_url }}">Edit Profile</A>
-            <A href="{% url 'signout' %}">Logout</A>
-            <br>
-            <p class="text-info"> {{ user.profile.last_visit }} </p>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-
-            <div class="panel panel-info">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ user.profile.get_full_name }}</h3>
-                </div>
-                <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3 col-lg-3 " align="center"><img alt="User Pic"
-                                                                            src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
-                                                                            class="img-circle img-responsive"></div>
+                        <div class="col-xs-12">
+                            <a href="#" class="active" >{{ user.profile.get_full_name }}</a>
 
+                            <a title="logout" class="pull-right" href="{% url 'signout' %}">
+                                <img src="{% static 'enrollments/images/logout.png' %}">
+                            </a>
+
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body ">
+                    <div class="row">
                         <div class=" col-md-9 col-lg-9 ">
-                            <table class="table table-user-information">
+                            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="{% static 'enrollments/images/account-profile-user-icon.png' %}" class="img-responsive"> </div>
+                            <table class="table table-user-information center-block">
                                 <tbody>
                                 <tr>
                                     <td>First Name</td>
@@ -42,7 +42,7 @@
                                 </tr>
                                 <tr>
                                     <td>Years of Experience</td>
-                                    <td>{{ user.profile.years_of_experience }}</td>
+                                    <td>{{ user.profile.years_of_experience }} Years</td>
                                 </tr>
                                 <tr>
                                     <td>Designation</td>
@@ -51,11 +51,19 @@
 
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
-
                 </div>
+
+                <div class="panel-footer">
+                    <span> Last login : {{ user.profile.last_visit }} </span>
+                    <span class="pull-right"> <a href="{{ user.profile.get_update_url }}"> Edit </a></span>
+                </div>
+
             </div>
         </div>
     </div>
+
+
 {% endblock inner_row %}

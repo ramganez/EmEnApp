@@ -20,7 +20,6 @@ from enrollments.forms import SigninForm, UserForm, ProfileForm, UserUpdateForm
 def signin(request):
     context = {}
     if request.method == 'POST':
-        import ipdb;ipdb.set_trace()
         form = SigninForm(request.POST)
         if request.is_ajax():
             if form.is_valid():
@@ -120,7 +119,6 @@ def update_user_profile(request, **kwargs):
         user_form = UserUpdateForm(request.POST or None, instance=instance)
         profile_form = ProfileForm(request.POST or None, instance=instance.profile)
         if request.method == 'POST':
-            import ipdb;ipdb.set_trace()
             if user_form.is_valid() and profile_form.is_valid():
                 user_obj = user_form.save()
                 user_obj.username = user_form.cleaned_data['username']
