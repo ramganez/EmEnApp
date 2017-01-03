@@ -30,7 +30,7 @@
 <body>
 
     <div class="container">
-		{% block row %}
+		{% block inner_row %}
         <div id="first_inner_row" class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
@@ -49,6 +49,9 @@
 						<div class="row">
 							<div class="col-lg-12">
 
+								<div id="form_errors" class="alert alert-danger fade in" style="display:none;">
+								</div>
+
 								{% block login_form %}
 									{% include 'enrollments/login_form.html' %}
 								{% endblock login_form %}
@@ -63,7 +66,7 @@
 				</div>
 			</div>
 		</div>
-		{% endblock %}
+		{% endblock inner_row %}
     </div>
 
 </body>

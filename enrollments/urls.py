@@ -10,6 +10,6 @@ urlpatterns = [
     url(r'^signout/$', signout, name='signout'),
 
     url(r'^register/$', create_user_profile, name='register'),
-    url(r'^profile/(?P<username_id>[\w-]+)/update$', update_user_profile, name='profile_update'),
-    url(r'^profile/(?P<username_id>[\w-]+)$', dashboard_view, name='profile'),
+    url(r'^profile/(?P<username_id>[\w-]+)/update/$', update_user_profile, name='profile_update'),
+    url(r'^profile/(?P<username_id>[\w-]+)/$', dashboard_view, name='profile'),
     ]

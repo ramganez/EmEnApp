@@ -7,11 +7,12 @@ from django.template.loader import get_template
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 from django.views.generic.base import RedirectView, TemplateView
 
 from enrollments.models import Profile
-from enrollments.forms import SigninForm, UserForm, ProfileForm
+from enrollments.forms import SigninForm, UserForm, ProfileForm, UserUpdateForm
 
 # Create your views here.
 
@@ -19,6 +20,7 @@ from enrollments.forms import SigninForm, UserForm, ProfileForm
 def signin(request):
     context = {}
     if request.method == 'POST':
+        import ipdb;ipdb.set_trace()
         form = SigninForm(request.POST)
         if request.is_ajax():
             if form.is_valid():
@@ -35,9 +37,9 @@ def signin(request):
                                             status=200)
                 except:
                     error_msg = "Something went wrong. Please try again later"
-                    return JsonResponse({'error_msg': error_msg}, status=400)
+                    return JsonResponse({'form_errors': error_msg}, status=400)
             else:
-                return JsonResponse(form.errors, status=400)
+                return JsonResponse({'form_errors': 'Incorrect username or password.'}, status=400)
 
     else:
         if request.user.is_authenticated():
@@ -94,14 +96,60 @@ def create_user_profile(request):
             return JsonResponse({'html': html, 'profile_url': profile_obj.get_absolute_url()}, status=200)
 
         else:
-            return JsonResponse(profile_form.errors, status=400)
+
+            # for append profile errors as well
+            profile_form.is_valid()
+
+            form_errors = '<br>'.join(user_form.non_field_errors())
+            for e in user_form.errors.values():  # [[u'Not valid format.'], [u'please check the detail .']]
+                form_errors += '<br>' + e[0]
+
+            form_errors += '<br>'.join(profile_form.non_field_errors())
+            for e in profile_form.errors.values():  # [[u'Not valid format.'], [u'please check the detail .']]
+                form_errors += '<br>' + e[0]
+
+            return JsonResponse({'form_errors':form_errors}, status=400)
 
     else:
         return redirect('go-to-signin')
 
 
-def update_user_profile(request):
-    pass
+def update_user_profile(request, **kwargs):
+    if request.user.is_authenticated():
+        instance = get_object_or_404(User, id=request.user.id)
+        user_form = UserUpdateForm(request.POST or None, instance=instance)
+        profile_form = ProfileForm(request.POST or None, instance=instance.profile)
+        if request.method == 'POST':
+            import ipdb;ipdb.set_trace()
+            if user_form.is_valid() and profile_form.is_valid():
+                user_obj = user_form.save()
+                user_obj.username = user_form.cleaned_data['username']
+                user_obj.email = user_form.cleaned_data['username']
+                profile_obj = profile_form.save()
+                dasboard_area = get_template(template_name="enrollments/dashboard.html")
+                html = dasboard_area.render({'user': user_obj})
+                # json response with dashboard
+                return JsonResponse({'html': html, 'profile_url': profile_obj.get_absolute_url()}, status=200)
+
+            else:
+                # for append profile errors as well
+                profile_form.is_valid()
+
+                form_errors = '<br>'.join(user_form.non_field_errors())
+                for e in user_form.errors.values():  # [[u'Not valid format.'], [u'please check the detail .']]
+                    form_errors += '<br>' + e[0]
+
+                form_errors += '<br>'.join(profile_form.non_field_errors())
+                for e in profile_form.errors.values():  # [[u'Not valid format.'], [u'please check the detail .']]
+                    form_errors += '<br>' + e[0]
+
+                return JsonResponse({'form_errors':form_errors}, status=400)
+
+        return render(request, 'enrollments/update_profile_form.html',
+                      {'update_action_url': request.user.profile.get_update_url(), 'user_form':user_form,
+                       'profile_form':profile_form})
+    else:
+        return redirect('go-to-signin')
 
 
 def dashboard_view(request, **kwargs):

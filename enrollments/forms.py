@@ -27,15 +27,20 @@ class SigninForm(forms.ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'password' )
+        fields = ('first_name', 'last_name', 'password')
 
     email = forms.EmailField(max_length=64, help_text="The person's email address.")
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        # Add all the fields you want a user to change
+        fields = ('first_name', 'last_name', 'username')
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('date_of_birth', 'years_of_experience', 'designation')
-
-
 

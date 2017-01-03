@@ -17,5 +17,8 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('profile', kwargs={'username_id': self.user.username.split('@')[0]+"_"+str(self.user.id)})
 
+    def get_update_url(self):
+        return reverse('profile_update', kwargs={'username_id': self.user.username.split('@')[0]+"_"+str(self.user.id)})
+
     def get_full_name(self):
         return self.user.first_name.title() +"  "+ self.user.last_name.title()

@@ -27,7 +27,8 @@ $(function() {
 
     $('#login-form-link').click(function(e) {
 
-        window.history.pushState("", "", '/signin');
+        $("#form_errors").hide();
+        window.history.pushState("", "", '/signin/');
 
     	$("#login-form").delay(100).fadeIn(100);
  		$("#register-form").fadeOut(100);
@@ -36,8 +37,8 @@ $(function() {
 		e.preventDefault();
 	});
 	$('#register-form-link').click(function(e) {
-
-	    window.history.pushState("", "", '/register');
+        $("#form_errors").hide();
+	    window.history.pushState("", "", '/register/');
 
 		$("#register-form").delay(100).fadeIn(100);
  		$("#login-form").fadeOut(100);
@@ -72,11 +73,11 @@ function submitForm(ation_url, _id) {
            error: function(data)
            {
                 // form validation error
-                if (data.responseJSON.__all__){
-                    $("#form_errors").html("Error! "+ data.responseJSON.__all__.join('\n'));
+                if (data.responseJSON.form_errors){
+                    $("#form_errors").html(data.responseJSON.form_errors);
                 }else{
                     // something went wrong
-                    $("#form_errors").html(data.responseJSON.error_msg);
+                    $("#form_errors").html('Something went wrong !');
                 }
 
                 $("#form_errors").show();

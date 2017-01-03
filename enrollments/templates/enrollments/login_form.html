@@ -2,9 +2,6 @@
 
 <form id="login-form" action="{{ signin_action_url }}" method="post" style="display: block;" data-toggle="validator">
 
-    <div id="form_errors" class="alert alert-danger fade in" style="display:none;">
-    </div>
-
     {% csrf_token %}
     <div class="form-group">
         {% render_field signin_form.username class="form-control" placeholder="Username" autofocus="" %}
